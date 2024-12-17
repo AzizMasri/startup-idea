@@ -1,6 +1,8 @@
 import Image from "next/image";
 import SearchForm from "../../components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
 
 
@@ -10,18 +12,8 @@ export default async function Home({ searchParams }: {
 
   const query = (await searchParams).query;
 
-  const posts = [
-      {
-        _createdAt: new Date(),
-        views: 1000,
-        author: {_id: 1, name: 'AzizMasri'},
-        _id: 1,
-        description: 'this is demo description for a post',
-        image: 'https://img.freepik.com/free-photo/merry-christmas-topic-red-background-with-christmas-tree_24972-687.jpg',
-        category: 'Robot',
-        title: 'We Robot',
-      }
-  ]
+  const posts = await client.fetch(STARTUPS_QUERY);
+
 
   return (
     <>
